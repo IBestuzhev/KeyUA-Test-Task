@@ -8,5 +8,8 @@
 <body>
 <h2>This application is a Django developper test</h2>
 {% block maincontent %}{% endblock %}
+<h4>Bonus from settings</h4>
+Timezone: {{ global_settings.TIME_ZONE }}<br/>
+Language code: {{ global_settings.LANGUAGE_CODE }}
 </body>
 </html>
