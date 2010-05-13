@@ -5,6 +5,8 @@ from django.conf.urls.defaults import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    (r'^$', 'profileapp.views.list_profile'),
+    (r'^(?P<user>[a-zA-Z0-9]+)/*$','profileapp.views.show_profile')
     # Example:
     # (r'^keyuatest/', include('keyuatest.foo.urls')),
 

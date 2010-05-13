@@ -1,0 +1,39 @@
+- fields:
+    date_joined: 2010-05-13 21:57:58.750000
+    email: igor@localhost.com
+    first_name: ''
+    groups: []
+    is_active: true
+    is_staff: true
+    is_superuser: true
+    last_login: 2010-05-13 21:57:58.750000
+    last_name: ''
+    password: sha1$bcaa6$2a907af62d39029fb70c5e9b2edc3f84d85499ea
+    user_permissions: []
+    username: igor
+  model: auth.user
+  pk: 1
+- fields:
+    date_joined: 2010-05-13 22:06:12.500000
+    email: ''
+    first_name: ''
+    groups: []
+    is_active: true
+    is_staff: false
+    is_superuser: false
+    last_login: 2010-05-13 22:06:12.500000
+    last_name: ''
+    password: sha1$e48d6$33e9f9414abf1cd79af28ec77fd2e629a3cb049b
+    user_permissions: []
+    username: ed
+  model: auth.user
+  pk: 2
+- fields: {biography: Some text about me, birth_date: 1987-10-22, contacts: +38 097
+      924 00 25, first_name: Igor, last_name: Bestuzhev, user: 1}
+  model: profileapp.userprof
+  pk: 1
+- fields: {biography: Rally racer, birth_date: 1968-08-05, contacts: '', first_name: Colin,
+    last_name: McRae, user: 2}
+  model: profileapp.userprof
+  pk: 2
+
