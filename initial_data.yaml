@@ -32,7 +32,7 @@
       924 00 25, first_name: Igor, last_name: Bestuzhev, user: 1}
   model: profileapp.userprof
   pk: 1
-- fields: {biography: Rally racer, birth_date: 1968-08-05, contacts: '', first_name: Colin,
+- fields: {biography: Rally racer, birth_date: 1968-08-05, contacts: 'Lanark, Scottland', first_name: Colin,
     last_name: McRae, user: 2}
   model: profileapp.userprof
   pk: 2
