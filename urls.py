@@ -13,7 +13,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('profileapp.views',
     (r'^$', 'list_profile',None,'list_profile'),
     (r'^(?P<user>[a-zA-Z0-9]+)/$','show_profile'),
-    (r'^edit/(?P<user>[a-zA-Z0-9]+)/$','edit_profile')
+    (r'^edit/(?P<user>[a-zA-Z0-9]+)/$','edit_profile',None,'edit_profile')
     # Example:
     # (r'^keyuatest/', include('keyuatest.foo.urls')),
 

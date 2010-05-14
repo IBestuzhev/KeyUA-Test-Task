@@ -1,4 +1,5 @@
 from django import template
+from django.core.urlresolvers import reverse
 
 register = template.Library()
 
@@ -17,4 +18,11 @@ class EditUserNode(template.Node):
         self.user = user
 
     def render (self, context):
-        return 'I <b>am</b> a link for %s'%context[self.user].get_profile().last_name
+        try:
+            return '<a href="%s">Edit profile for %s %s</a>'% (
+                    reverse ('edit_profile',kwargs={'user':context[self.user]}),
+                    context[self.user].get_profile().first_name,
+                    context[self.user].get_profile().last_name
+                    )
+        except (ValueError, KeyError):
+            return ""
