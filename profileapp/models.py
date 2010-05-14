@@ -16,11 +16,13 @@ class UserProf (models.Model):
     biography = models.TextField()
     contacts = models.TextField()
 
-    user = models.ForeignKey(User, unique=True)
+    user = models.ForeignKey(User, unique=True, editable=False)
 
     @models.permalink
     def get_absolute_url (self):
-        return ('profileapp.views.show_profile', (), {'user':self.user.username})
+        """ Renders an absolute url to view this user's profile """
+        return ('profileapp.views.show_profile', (),
+                {'user':self.user.username})
 
 
 class LogDB (models.Model):

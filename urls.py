@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
 from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
@@ -6,8 +6,13 @@ from django.conf import settings
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^%s$'%settings.LOGIN_URL[1:],'django.contrib.auth.views.login',{'template_name':'Login.html'}),
-    (r'^profile/logout/$','django.contrib.auth.views.logout',{'next_page':'/', 'redirect_field_name':'next'},'logout_view')
+    (r'^%s$'%settings.LOGIN_URL[1:],'django.contrib.auth.views.login',
+            {'template_name':'Login.html'}),
+    (r'^profile/logout/$','django.contrib.auth.views.logout',
+            {'next_page':'/', 'redirect_field_name':'next'},'logout_view'),
+    (r'(?P<path>.*[.](?:css|js|html|jpg|jpeg|png|gif))',
+            'django.views.static.serve',
+            {'document_root': 'c:\\work\\KeyUA\\keyuatest\\static'})
 )
 
 urlpatterns += patterns('profileapp.views',

@@ -1,7 +1,8 @@
 """ This is a middleware module for logging """
-from profileapp.models import LogDB
-from django.http import HttpResponse
+# TODO: Delete commented imports
+#from django.http import HttpResponse
 from django.contrib.auth.decorators import _CheckLogin
+from profileapp.models import LogDB
 
 
 class LogMiddleware (object):
@@ -12,7 +13,7 @@ class LogMiddleware (object):
         """
 
         # Get undecorated function for require_login decorator
-        if (isinstance(view_func,_CheckLogin)):
+        if (isinstance(view_func, _CheckLogin)):
             view_func = view_func.view_func
 
         func_name = '.'.join((view_func.__module__, view_func.func_name))
