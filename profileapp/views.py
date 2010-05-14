@@ -1,9 +1,10 @@
 """ Create your views here. """
-# from django.http import HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import render_to_response,redirect
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.context import RequestContext
+from django.contrib.auth.decorators import login_required
 from profileapp.models import UserProf
 
 def list_profile (request):
@@ -20,5 +21,10 @@ def show_profile (request, user):
     except ObjectDoesNotExist:
         return redirect('profileapp.views.list_profile',permanent=True)
     return render_to_response ('ShowProfile.html',
-                    {'user':user_entry.get_profile()},
+                    {'user_prof':user_entry.get_profile()},
                     context_instance=RequestContext(request))
+
+
+@login_required
+def edit_profile (request, user):
+    return HttpResponse ('Not yet implemented')

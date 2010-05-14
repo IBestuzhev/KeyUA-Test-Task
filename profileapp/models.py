@@ -1,4 +1,4 @@
-"""This modules provides standart Django ORM """
+"""This module provides standart Django ORM """
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -17,6 +17,10 @@ class UserProf (models.Model):
     contacts = models.TextField()
 
     user = models.ForeignKey(User, unique=True)
+
+    @models.permalink
+    def get_absolute_url (self):
+        return ('profileapp.views.show_profile', (), {'user':self.user.username})
 
 
 class LogDB (models.Model):

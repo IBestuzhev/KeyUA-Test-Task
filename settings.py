@@ -59,6 +59,8 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'profileapp.contextprocessors.process_settings',
+    'django.core.context_processors.auth',
+    'django.core.context_processors.request',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -87,3 +89,6 @@ INSTALLED_APPS = (
 
 # Provide additional info to user profile
 AUTH_PROFILE_MODULE = 'profileapp.UserProf'
+
+LOGIN_URL = '/profile/login/'
+LOGIN_REDIRECT_URL = '/'

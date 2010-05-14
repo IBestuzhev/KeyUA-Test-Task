@@ -1,18 +1,18 @@
 {% extends "Base.html" %}
 {% block maincontent %}
-<h3>Here is some data about {{ user.first_name }} {{ user.last_name }}:</h3>
+<h3>Here is some data about {{ user_prof.first_name }} {{ user_prof.last_name }}:</h3>
 <table border="1">
 <tr>
     <td>Date of birth</td>
-    <td>{{ user.birth_date }}</td>
+    <td>{{ user_prof.birth_date }}</td>
 </tr>
 <tr>
     <td>Biography</td>
-    <td>{{ user.biography }}</td>
+    <td>{{ user_prof.biography }}</td>
 </tr>
 <tr>
     <td>Contacts</td>
-    <td>{{ user.contacts }}</td>
+    <td>{{ user_prof.contacts }}</td>
 </tr>
 </table>
 <br/>
