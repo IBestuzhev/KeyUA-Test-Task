@@ -82,7 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+#    'django.contrib.sites',
     'django.contrib.admin',
     'keyuatest.profileapp'
 )
@@ -93,3 +93,7 @@ AUTH_PROFILE_MODULE = 'profileapp.UserProf'
 LOGIN_URL = '/profile/login/'
 LOGIN_REDIRECT_URL = '/'
 APPEND_SLASH = True
+
+# List of settings that are accessible in templates with process_settings
+# context processor. User {{ global_settings.SETTING_NAME }} to get value
+TEMPLATE_PROVIDE_SETTINGS = ('TIME_ZONE', 'LANGUAGE_CODE', 'LOGIN_URL')
