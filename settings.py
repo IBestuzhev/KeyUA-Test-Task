@@ -92,3 +92,4 @@ AUTH_PROFILE_MODULE = 'profileapp.UserProf'
 
 LOGIN_URL = '/profile/login/'
 LOGIN_REDIRECT_URL = '/'
+APPEND_SLASH = True

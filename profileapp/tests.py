@@ -5,15 +5,102 @@ unittest). These will both pass when you run "manage.py test".
 Replace these with more appropriate tests for your application.
 """
 
-from django.test import TestCase
+from django.test import TestCase, Client
+from profileapp.models import LogDB, UserProf
 
 class SimpleTest(TestCase):
+
     def test_basic_addition(self):
         """
         Tests that 1 + 1 always equals 2.
         """
         self.failUnlessEqual(1 + 1, 2)
+        
+    def test_basic_get (self):
+        """ Tests, that main page and profiles are accessible """
 
+        # Test access to root page
+        self.assertEqual(self.client.get('/').status_code,200,
+                "Main page unreachable")
+
+        # Test access to profile and trailing slash appending
+        response = self.client.get('/igor',follow=True)
+        self.assertRedirects(response,'/igor/',301,200)
+
+    def test_log_middleware (self):
+        """ Tests log middleware
+        Each request is logged into LogDB table with HR label
+        This test checks that number of log entries is incremented
+        """
+
+        hr_count_before = LogDB.objects.filter(event_type='HR').count()
+        self.client.get('/')
+        hr_count_after = LogDB.objects.filter(event_type='HR').count()
+        self.assertTrue(hr_count_after > hr_count_before,
+                "Log middleware doesn't log HTTP Requests")
+
+    def test_login_module (self):
+        """ Tests that profile edit page is not accessible by
+        unauthorized users. It should redirect to login page
+        """
+        self.client.logout()
+
+        # Unauthorized users are redirected to login page
+        response = self.client.get('/edit/igor/',follow=True)
+        self.assertRedirects(response,'/profile/login/?next=/edit/igor/',
+                status_code=302,target_status_code=200)
+
+        # Login page must show page on GET request and authentificate user
+        # on POST request
+        self.assertEqual(self.client.get("/profile/login/?next=/edit/igor/").\
+                status_code,200)
+        # Wrong user
+        response = self.client.post('/profile/login/',
+                {'username':'someone', 'password':'123', 'next':'/edit/igor/'})
+        self.assertEqual(response.status_code, 200,
+                "Failure when provide incorrect user credentials")
+        response = self.client.post('/profile/login/',
+                {'username':'igor', 'password':'123', 'next':'/edit/igor/'})
+        self.assertEqual(response.status_code, 302,
+                "Successful login did not redirect user")
+        self.assertEqual(response['Location'], 'http://testserver/edit/igor/',
+                "Wrong redirect target after login")
+
+        # Now user can edit his profile
+        # IMPORTANT
+        # There is a bug with Django test client and Python 2.6.5 or higher
+        # http://groups.google.com/group/django-users/browse_thread/thread/703b2e477d157f66/44e0cc61bf9e0b00?pli=1
+        # Test client has some problems with cookies so all requests are
+        # done from unauthorized user
+        #
+        # I passed this test using Python 2.5.1, but it fails on 2.6.5
+        # This problem is fixed in Django 1.1.2 and 1.2
+        #
+        self.assertEqual(self.client.get('/edit/igor/').status_code, 200)
+
+    def test_profile_edit(self):
+        """ Change some info via web interface """
+        self.client.login(username='igor',password='123')
+
+        # Posting wrong data
+        post_data = {'contacts':'Test contacts',
+                     'biography':'Test biography',
+                     'birth_date':'1987-10-32',
+                     'first_name':'Igor',
+                     'last_name':'Bestuzhev'}
+        response = self.client.post('/edit/igor/', post_data)
+        self.assertEqual (response.status_code, 200)
+        self.assertFormError(response,'prof_form','birth_date',
+                             'Enter a valid date.')
+
+        # Posting right data
+        post_data['birth_date'] = '1987-10-22'
+        response = self.client.post('/edit/igor/', post_data, follow=True)
+        self.assertRedirects(response, '/igor/')
+        self.assertContains(response, post_data['contacts'])
+
+        
+        
 __test__ = {"doctest": """
 Another way to test that 1 + 1 is equal to 2.
 

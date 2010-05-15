@@ -28,7 +28,7 @@ def show_profile (request, user):
 
 @login_required
 def edit_profile (request, user):
-    err_msg = profile = None
+    err_msg = profile = profile_form = None
     if user == request.user.username:
         profile = request.user.get_profile()
     elif request.user.is_staff:
@@ -39,15 +39,19 @@ def edit_profile (request, user):
     else:
         err_msg = "Only staff is allowed to change another users' data"
 
-    if (not err_msg) and request.method == 'POST':
-        try:
-            ProfileForm(request.POST, instance=profile).save()
-        except ValueError:
-            pass
+    if not err_msg:
+        if request.method == 'POST':
+            try:
+                profile_form = ProfileForm(request.POST, instance=profile)
+                profile_form.save()
+            except ValueError:
+                pass
+            else:
+                return redirect(profile)
         else:
-            return redirect(profile)
+            profile_form = ProfileForm(instance=profile)
             
     return render_to_response ('EditProfile.html',
-                    {'prof_form':ProfileForm(instance=profile),
+                    {'prof_form':profile_form,
                      'wrong_user':err_msg},
                     context_instance=RequestContext(request))

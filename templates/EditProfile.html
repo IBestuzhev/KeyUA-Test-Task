@@ -3,6 +3,10 @@
 
 {% if not wrong_user %}
 
+{% if prof_form.errors %}
+Your information contains erorrs and can not be saved
+{% endif %}
+
 <form action='{{ request.path }}' method='POST'>
     <table>
         {{ prof_form.as_table }}    

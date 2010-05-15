@@ -23,6 +23,7 @@ class LogMiddleware (object):
         func_args.append(','.join(
                 ["%s=%s"%(k, v) for k, v in view_kwargs.items()]))
         LogDB(event_type='HR',
-              info="Call to %s (%s)"%(func_name, ''.join(func_args))
-              ).save()
+                info="Request to %s proceed by %s (%s)"%(request.path,
+                        func_name, ''.join(func_args))
+                ).save()
         return None
