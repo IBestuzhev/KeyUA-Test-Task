@@ -6,6 +6,7 @@ Replace these with more appropriate tests for your application.
 """
 
 from django.test import TestCase, Client
+from django.conf import settings
 from profileapp.models import LogDB, UserProf
 
 class SimpleTest(TestCase):
@@ -22,8 +23,8 @@ class SimpleTest(TestCase):
         self.assertRedirects(response,'/igor/',301,200)
 
     def test_log_middleware (self):
-        """ Tests log middleware
-        Each request is logged into LogDB table with HR label
+        """ Tests log middleware\
+        Each request is logged into LogDB table with HR label\
         This test checks that number of log entries is incremented
         """
 
@@ -34,7 +35,7 @@ class SimpleTest(TestCase):
                 "Log middleware doesn't log HTTP Requests")
 
     def test_login_module (self):
-        """ Tests that profile edit page is not accessible by
+        """ Tests that profile edit page is not accessible by\
         unauthorized users. It should redirect to login page
         """
         self.client.logout()
@@ -96,4 +97,21 @@ class SimpleTest(TestCase):
         self.assertContains(response, post_data['contacts'])
         self.assertTrue (edit_count_after > edit_count_before,
                 "Database change has not been logged")
+
+    def test_settings_context_processor(self):
+        """ Tests that every page contains language and timezone\
+        from settings.py file
+        """
+        response = self.client.get('/')
+        self.assertContains(response, settings.TIME_ZONE)
+        self.assertContains(response, settings.LANGUAGE_CODE)
+
+    def test_template_user_tag(self):
+        """ Tests that a page for logined users has a link to user profile"""
+
+        self.client.login(username='igor', password='123')
+        response = self.client.get('/')
+        self.assertContains(response,
+                '<a href="/edit/igor/">Edit profile for Igor Bestuzhev</a>')
+
 

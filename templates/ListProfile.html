@@ -1,9 +1,0 @@
-{% extends "Base.html" %}
-{% block maincontent %}
-<h3>Here you can see profiles of this people:</h3>
-<ul>
-    {% for user_profile in user_list %}
-    <li><a href='{{ user_profile.get_absolute_url }}'>{{ user_profile.first_name }} {{ user_profile.last_name }}</a></li>
-    {% endfor %}
-</ul>
-{% endblock %}
