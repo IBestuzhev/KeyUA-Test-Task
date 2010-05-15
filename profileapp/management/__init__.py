@@ -1,0 +1,1 @@
+""" This package adds commands to manage.py shell util """

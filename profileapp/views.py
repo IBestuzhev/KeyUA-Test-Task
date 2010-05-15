@@ -1,10 +1,10 @@
 """ Create your views here. """
-from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
+
 from profileapp.models import UserProf
 from profileapp.forms import ProfileForm
 
@@ -28,6 +28,11 @@ def show_profile (request, user):
 
 @login_required
 def edit_profile (request, user):
+    """ When called via GET it returns the form with user profile
+    When data posted via POST method is a valid profile data, it is saved
+    to UserProf table and user is redirected to view his profile
+    If data is invalid the form is shown again with error message
+    """
     err_msg = profile = profile_form = None
     if user == request.user.username:
         profile = request.user.get_profile()

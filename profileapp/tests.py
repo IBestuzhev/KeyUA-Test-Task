@@ -5,22 +5,22 @@ unittest). These will both pass when you run "manage.py test".
 Replace these with more appropriate tests for your application.
 """
 
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.conf import settings
-from profileapp.models import LogDB, UserProf
+from profileapp.models import LogDB
 
-class SimpleTest(TestCase):
-
+class ProfileAppTest(TestCase):
+    """ Tests for profileapp application """
     def test_basic_get (self):
         """ Tests, that main page and profiles are accessible """
 
         # Test access to root page
-        self.assertEqual(self.client.get('/').status_code,200,
+        self.assertEqual(self.client.get('/').status_code, 200,
                 "Main page unreachable")
 
         # Test access to profile and trailing slash appending
-        response = self.client.get('/igor',follow=True)
-        self.assertRedirects(response,'/igor/',301,200)
+        response = self.client.get('/igor', follow=True)
+        self.assertRedirects(response, '/igor/', 301, 200)
 
     def test_log_middleware (self):
         """ Tests log middleware\
@@ -41,9 +41,9 @@ class SimpleTest(TestCase):
         self.client.logout()
 
         # Unauthorized users are redirected to login page
-        response = self.client.get('/edit/igor/',follow=True)
-        self.assertRedirects(response,'/profile/login/?next=/edit/igor/',
-                status_code=302,target_status_code=200)
+        response = self.client.get('/edit/igor/', follow=True)
+        self.assertRedirects(response, '/profile/login/?next=/edit/igor/',
+                status_code=302, target_status_code=200)
 
         # Login page must show page on GET request and authentificate user
         # on POST request
@@ -75,7 +75,7 @@ class SimpleTest(TestCase):
 
     def test_profile_edit(self):
         """ Change some info via web interface """
-        self.client.login(username='igor',password='123')
+        self.client.login(username='igor', password='123')
 
         # Posting wrong data
         post_data = {'contacts':'Test contacts',
@@ -85,7 +85,7 @@ class SimpleTest(TestCase):
                      'last_name':'Bestuzhev'}
         response = self.client.post('/edit/igor/', post_data)
         self.assertEqual (response.status_code, 200)
-        self.assertFormError(response,'prof_form','birth_date',
+        self.assertFormError(response, 'prof_form', 'birth_date',
                              'Enter a valid date.')
 
         # Posting right data

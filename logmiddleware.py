@@ -1,6 +1,4 @@
 """ This is a middleware module for logging """
-# TODO: Delete commented imports
-#from django.http import HttpResponse
 from django.contrib.auth.decorators import _CheckLogin
 from profileapp.models import LogDB
 

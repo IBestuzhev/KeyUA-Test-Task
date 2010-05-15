@@ -1,3 +1,4 @@
+""" Module for {% edit_list user %} tag"""
 from django import template
 from django.core.urlresolvers import reverse
 
@@ -5,6 +6,9 @@ register = template.Library()
 
 @register.tag(name="edit_list")
 def do_edit_user(parser, token):
+    """ the tag {% edit_list user %} generates a link to edit user's profile
+    if user variable is invalid, it outputs empty string
+    """
     try:
         # split_contents() knows not to split quoted strings.
         tag_name, user = token.split_contents()
@@ -15,9 +19,10 @@ def do_edit_user(parser, token):
 
 
 class EditUserNode(template.Node):
+    """ This node is used to render user_list tag"""
     def __init__ (self, user):
         self.user = user
-        super(template.Node, self).__init__()
+        template.Node.__init__(self)
 
     def render (self, context):
         try:

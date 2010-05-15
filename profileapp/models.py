@@ -25,7 +25,7 @@ class UserProf (models.Model):
         return ('profileapp.views.show_profile', (),
                 {'user':self.user.username})
     def __unicode__(self):
-        return u"%s %s"%(self.first_name, self.last_name)
+        return u"%s %s" % (self.first_name, self.last_name)
 
 
 class LogDB (models.Model):
