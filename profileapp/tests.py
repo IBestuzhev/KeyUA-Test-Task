@@ -10,12 +10,6 @@ from profileapp.models import LogDB, UserProf
 
 class SimpleTest(TestCase):
 
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
-        
     def test_basic_get (self):
         """ Tests, that main page and profiles are accessible """
 
@@ -95,16 +89,11 @@ class SimpleTest(TestCase):
 
         # Posting right data
         post_data['birth_date'] = '1987-10-22'
+        edit_count_before = LogDB.objects.filter(event_type='DE').count()
         response = self.client.post('/edit/igor/', post_data, follow=True)
+        edit_count_after = LogDB.objects.filter(event_type='DE').count()
         self.assertRedirects(response, '/igor/')
         self.assertContains(response, post_data['contacts'])
-
-        
-        
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
-
->>> 1 + 1 == 2
-True
-"""}
+        self.assertTrue (edit_count_after > edit_count_before,
+                "Database change has not been logged")
 
