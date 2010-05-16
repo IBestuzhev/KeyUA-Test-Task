@@ -9,9 +9,14 @@
 <body>
 <h2>This application is a Django developper test</h2>
 {% block maincontent %}{% endblock %}
+
+{% block view_settings %}
 <h4>Bonus from settings</h4>
 Timezone: {{ global_settings.TIME_ZONE }}<br/>
 Language code: {{ global_settings.LANGUAGE_CODE }}
+{% endblock %}
+
+{% block login %}
 <h4>Login module</h4>
 {% if not user.is_authenticated %}
 <a href="{{ global_settings.LOGIN_URL }}?next={{ request.path|urlencode }}">Login here</a>
@@ -20,5 +25,6 @@ Language code: {{ global_settings.LANGUAGE_CODE }}
 {% load user_tags %}
 {% edit_list user %}
 {% endif %}
+{% endblock %}
 </body>
 </html>

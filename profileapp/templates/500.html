@@ -1,0 +1,22 @@
+{% extends "Base.html" %}
+{% block maincontent %}
+
+    You try to access a page on our server
+    but we encounter some error <br/>
+
+    Please, try another page, for example
+    <a href='{% url list_profile %}'>our homepage</a>
+
+{% endblock %}
+
+{% comment %}
+Clear login and settings blocks, because handler500 does not use
+RequestContext
+{% endcomment %}
+{% block view_settings %}
+
+{% endblock %}
+
+{% block login %}
+
+{% endblock %}

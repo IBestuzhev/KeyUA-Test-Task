@@ -1,0 +1,10 @@
+{% extends "Base.html" %}
+{% block maincontent %}
+
+    You try to access <em>http://{{ request.META.HTTP_HOST }}{{ request_path }}</em> 
+    but this is impossible <br/>
+
+    Please, try another page, for example
+    <a href='{% url list_profile %}'>our homepage</a>
+
+{% endblock %}

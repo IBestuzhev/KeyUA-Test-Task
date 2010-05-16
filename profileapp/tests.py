@@ -48,7 +48,7 @@ class ProfileAppTest(TestCase):
         # Login page must show page on GET request and authentificate user
         # on POST request
         self.assertEqual(self.client.get("/profile/login/?next=/edit/igor/").\
-                status_code,200)
+                status_code, 200)
         # Wrong user
         response = self.client.post('/profile/login/',
                 {'username':'someone', 'password':'123', 'next':'/edit/igor/'})
@@ -71,7 +71,8 @@ class ProfileAppTest(TestCase):
         # I passed this test using Python 2.5.1, but it fails on 2.6.5
         # This problem is fixed in Django 1.1.2 and 1.2
         #
-        self.assertEqual(self.client.get('/edit/igor/').status_code, 200)
+        self.assertEqual(self.client.get('/edit/igor/').status_code, 200,
+                "Can't view Profile edit page after login")
 
     def test_profile_edit(self):
         """ Change some info via web interface """
@@ -84,7 +85,8 @@ class ProfileAppTest(TestCase):
                      'first_name':'Igor',
                      'last_name':'Bestuzhev'}
         response = self.client.post('/edit/igor/', post_data)
-        self.assertEqual (response.status_code, 200)
+        self.assertEqual (response.status_code, 200,
+                "Posting wrong data didn't return form again")
         self.assertFormError(response, 'prof_form', 'birth_date',
                              'Enter a valid date.')
 
