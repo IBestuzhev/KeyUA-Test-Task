@@ -10,9 +10,9 @@ urlpatterns = patterns('',
             {'template_name':'Login.html'}),
     (r'^profile/logout/$','django.contrib.auth.views.logout',
             {'next_page':'/', 'redirect_field_name':'next'},'logout_view'),
-    (r'(?P<path>.*[.](?:css|js|html|jpg|jpeg|png|gif))',
+    (r'static/(?P<path>.*[.](?:css|js|html|jpg|jpeg|png|gif))',
             'django.views.static.serve',
-            {'document_root': 'c:\\work\\KeyUA\\keyuatest\\static'})
+            {'document_root': settings.MEDIA_ROOT})
 )
 
 urlpatterns += patterns('profileapp.views',
