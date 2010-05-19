@@ -1,4 +1,5 @@
 from django.forms import ModelForm, TextInput, DateField
+from django.utils.datastructures import SortedDict
 from profileapp.models import UserProf
 
 
@@ -14,9 +15,12 @@ class CalendarWidget (TextInput):
 
 class ProfileForm (ModelForm):
     """ This form is used to change entries in UserProf table"""
+    def __init__ (self, *a, **k):
+        """ Invert fields order """
+        ModelForm.__init__ (self, *a, **k)
+        self.fields = SortedDict(self.fields.items()[::-1])
+
     birth_date = DateField(
             widget=CalendarWidget(attrs={'id':'calendar-widget'}))
     class Meta:
         model = UserProf
-        fields = ['contacts', 'biography', 'birth_date',
-                'last_name', 'first_name']
